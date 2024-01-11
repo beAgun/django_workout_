@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row justify-content-center text-start">
+        <div class="col-6 my-2" style="border: 1px solid rgb(192,192,192);
+                                       border-radius: 20px; min-height: 33rem;
+                                       padding: 20px; background: #ffffff;">
+
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}" />
+                    <div class="form-error">{{ form.non_field_errors }}</div>
+
+                    <div class="form-error">{{ form.username.errors }}</div>
+                    <div class="form-floating mb-3">
+                        <input name="username" type="text" class="form-control" id="floatingInput" placeholder="Логин">
+                        <label for="floatingInput">{{form.username.label}}</label>
+                    </div>
+
+                    <div class="form-error">{{ form.email.errors }}</div>
+                    <div class="form-floating mb-3">
+                        <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                        <label for="floatingInput">{{form.email.label}}</label>
+                    </div>
+
+                    <div class="form-error">{{ form.first_name.errors }}</div>
+                    <div class="form-floating mb-3">
+                        <input name="first_name" type="text" class="form-control" id="floatingInput" placeholder="Имя">
+                        <label for="floatingInput">{{form.first_name.label}}</label>
+                    </div>
+
+                    <div class="form-error">{{ form.last_name.errors }}</div>
+                    <div class="form-floating mb-3">
+                        <input name="last_name" type="text" class="form-control" id="floatingInput" placeholder="Фамилия">
+                        <label for="floatingInput">{{form.last_name.label}}</label>
+                    </div>
+
+                    <div class="form-error">{{ form.password1.errors }}</div>
+                    <div class="form-floating mb-3">
+                        <input name="password1" type="password" class="form-control" id="floatingPassword" placeholder="Пароль">
+                        <label for="floatingPassword">{{form.password1.label}}</label>
+                    </div>
+
+                    <div class="form-error">{{ form.password2.errors }}</div>
+                    <div class="form-floating mb-4">
+                        <input name="password2" type="password" class="form-control" id="floatingPassword" placeholder="Подтверждение пароля">
+                        <label for="floatingPassword">{{form.password2.label}}</label>
+                    </div>
+
+                    <div class="d-grid gap-2 col-4 mx-auto">
+                    <button type="submit" class="btn btn-outline-primary">Sign up</button>
+                    </div>
+                </form>
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

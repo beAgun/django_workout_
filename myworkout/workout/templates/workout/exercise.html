@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load workout_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-2 my-4 mx-3">
+    {% include 'workout/includes/sidebar.html' %}
+    </div>
+
+    <div class="col">
+    <div class="container text-center my-3">
+    <h2>{{ ex.name }}</h2>
+
+        <div class="row row-cols-2 g-4 my-2">
+            <div class="col-6">
+                <div class="card h-100" style="width: 30rem;">
+                {% if ex.image %}
+                <img class="rounded" style="max-width: 100%;" src="{{ ex.image.url }}" alt="Image">
+                {% endif %}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card" style="">
+                    <div class="card-body d-flex flex-column">
+                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.muscle subtitle='Целевые мышцы' %}
+                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.equipment subtitle='Инвентарь' %}
+                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.level subtitle='Уровень' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 my-2">
+        {% for title, text in ex.get_text_elements.items %}
+        {% if text %}
+        <div class="col">
+            <div class="card h-100 text-start" style="width: 30rem;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title" align="center">{{title}}:</h5>
+                    <hr style="margin: 0 0 4px 0;">
+                    {% autoescape off %}
+                    <p class="card-text">{{ text }}</p>
+                    {% endautoescape %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        </div>
+
+    </div>
+    </div>
+</div>
+{% endblock %}

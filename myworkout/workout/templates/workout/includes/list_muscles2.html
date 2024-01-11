@@ -1,0 +1,20 @@
+{% load mptt_tags %}
+
+<h6>Упражнения по целевой мышечной группе</h6>
+<ul class="sidebar">
+    {% recursetree nodes %}
+        {% if node.id == muscle_selected.id %}
+        <li class="selected">
+        {% else %}
+        <li>
+            <a href="{{ node.get_absolute_url }}">
+        {% endif %}
+            {{ node.name }} </a>
+            {% if node.slug in muscle_selected.path and not node.is_leaf_node %}
+                <ul class="sidebar-children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>

@@ -1,0 +1,10 @@
+<ol>
+    {% for s in object.all %}
+    <li>
+        {% if s.weight %} {{ s.weight }} кг {% endif %}
+        {% if s.reps %} {{ s.reps }} повт. {% endif %}
+        {% if s.time %} время: {{ s.time }} {% endif %}
+        {% if s.distance %} {{ s.distance }} км {% endif %}
+    </li>
+    {% endfor %}
+</ol>

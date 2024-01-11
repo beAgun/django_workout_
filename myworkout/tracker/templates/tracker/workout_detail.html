@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-4 mx-4">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <span style="whitespace: nowrap;">
+            <h5 class="card-title">{{ workout.title }}</h5>
+            <p>{{ workout.date }}</p>
+            </span>
+            {% if workout.description %}
+            <p class="card-text">{{ workout.description }}</p>
+            {% endif %}
+            <ul>
+            {% for i in exercise_workout_list %}
+                <li>
+                    <a href="{{ i.exercise.get_absolute_url }}">{{ i.exercise.name }}</a>
+                    {% include 'tracker/sets.html' with object=i.sets1 %}
+                    {% include 'tracker/sets.html' with object=i.sets2 %}
+                    {% include 'tracker/sets.html' with object=i.sets3 %}
+                    {% include 'tracker/sets.html' with object=i.sets4 %}
+                    <a href="{% url 'tracker:add_set' workout.id i.exercise.slug %}">add set</a>
+                </li>
+
+                    {% if i.exercise.slug == ex_slug %}
+                        {% block add_set %}
+                        {% endblock %}
+                    {% endif %}
+            {% endfor %}
+            </ul>
+
+            {% block add_exercise_form %}
+            {% endblock %}
+
+            {% if workout.id %}
+            <a href="{% url 'tracker:add_workout_exercise' workout.id %}">add exercise</a>
+            {% endif %}
+      </div>
+    </div>
+</div>
+{% endblock %}

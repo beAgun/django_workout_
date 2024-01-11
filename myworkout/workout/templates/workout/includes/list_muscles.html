@@ -1,0 +1,9 @@
+<ul class="list-muscles">
+    {% for m in muscles %}
+    {% if m.pk == muscle_selected %}
+    <li class="selected">{{ m.name }}</li>
+    {% else %}
+    <li><a href="{{ m.get_absolute_url }}">{{ m.name }}</a></li>
+    {% endif %}
+    {% endfor %}
+</ul>

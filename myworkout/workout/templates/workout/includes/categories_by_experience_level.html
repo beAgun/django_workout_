@@ -1,0 +1,10 @@
+<h6>Упражнения по уровню подготовки</h6>
+<ul class="sidebar">
+    {% for cat in categories %}
+        {% if cat.slug == cat_selected %}
+        <li class="selected">{{ cat.name }}</li>
+        {% else %}
+        <li><a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a></li>
+        {% endif %}
+    {% endfor %}
+</ul>

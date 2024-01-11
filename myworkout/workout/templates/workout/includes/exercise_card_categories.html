@@ -1,0 +1,10 @@
+{% for item in object.all %}
+    {% if forloop.first %}
+    <p><strong>{{subtitle}}:</strong>
+    {% endif %}
+    {% if not forloop.last %}
+        {{item.name|lower}},
+    {% else %}
+        {{item.name|lower}}.</p>
+    {% endif %}
+{% endfor %}

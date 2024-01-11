@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center justify-content-between my-4">
+    <table class="week">
+      <thead>
+        <tr>
+          {% for day in week_days %}
+          <th>{{ day }}<div id="button-add"><a href="#">+</a></div></th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody class="week">
+        <tr class="day">
+          {% for i in object_list_by_week_day %}
+          <td><div>{{ i.title }}</div></td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+</div>
+{% endblock %}

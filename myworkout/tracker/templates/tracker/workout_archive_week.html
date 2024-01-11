@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load template_filters %}
+
+{% block content %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center my-4 pagination-md">
+        {% if previous_week %}
+         <li class="page-item">
+            {% with week=previous_week|date:"W" year=previous_week|date:"Y" %}
+            <a class="page-link" style="color: #000000" href="{% url 'tracker:archive_week' year week %}">
+            Предыдущая: {{ previous_week|date:"W" }} неделя {{ previous_week|date:"Y" }} года
+            </a>
+            {% endwith %}
+         </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link" style="background: #f8f9fa">Предыдущая</span>
+        </li>
+        {% endif %}
+
+        <li class="page-item page-link active" style="background: #9b598d; border-color: #9b598d;">
+            {{ week|date:'W' }} неделя {{ week|date:"Y" }} года
+        </li>
+
+        {% if next_week %}
+        <li class="page-item">
+            {% with week=next_week|date:"W" year=next_week|date:"Y" %}
+            <a class="page-link" style="color: #000000" href="{% url 'tracker:archive_week' year week %}">
+            Следующая: {{ next_week|date:"W" }} неделя {{ next_week|date:"Y" }} года
+            </a>
+            {% endwith %}
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link" style="background: #f8f9fa">Следующая</span>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+<div class="container text-center justify-content-between my-4">
+
+    <table class="week">
+      <thead>
+        <tr>
+          {% for day in week_days %}
+            <th class="head">
+                <div>
+                    <span>{{ day|date:'D' }}
+                    <span style="font-weight: 300;">{{ day|date:'j b' }}</span>
+                    </span>
+                    <a href="{% url 'tracker:add_workout' day|date:'Y' day|date:'m' day|date:'d' %}">+</a>
+                </div>
+            </th>
+
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody class="week">
+        <tr class="day">
+          {% for training_list in object_list_by_week_day %}
+            <td>
+            {% for training, cnt in training_list %}
+            <div>
+              <div class="card text-center mx-0" style="width: 100%;
+                            background: -webkit-linear-gradient(90deg, #ffe5ff,#e9c6e5);
+                            background: linear-gradient(90deg, #ffe5ff,#e9c6e5);">
+
+                  <div class="card-body d-flex flex-column mx-0 my-1 justify-content-between" style="padding: 2px;">
+                  <p style="font-size: 14px; font-weight: 400; margin: 0 0 0 0; padding: 0 0 0 0;">
+                      <strong style="font-weight: 500;">
+                          {{ training.title }} №{{ cnt }}
+                      </strong>
+                      {% if training.time %}
+                          {{ training.time }}<br>
+                      {% endif %}
+                      {{ training.workout_type }}
+                  <p>
+                  </div>
+              </div>
+              <div style="flex-wrap: wrap; align-content: flex-start; display:inline-block;">
+                  <a style="margin: 0;" href="{% url 'tracker:workout' training.id %}">&#128065;</a>
+                  <a style="margin: 0;" href="#">&#9998;</a>
+                  <a style="margin: 0;" href="#">&#10006;</a>
+              </div>
+            </div>
+            {% endfor %}
+            </td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+</div>
+{% endblock %}

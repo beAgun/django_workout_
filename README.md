@@ -24,7 +24,7 @@
     
     ![image](https://github.com/beAgun/django_workout_/assets/140337252/b5fdb0ad-9516-467b-8d84-be2e0e603e55)
     
-    После оптимизации (при том же содержании) страницы 10 запросов:
+    После оптимизации (при том же содержании страницы) 10 запросов:
     
     ![image](https://github.com/beAgun/django_workout_/assets/140337252/d1082f7f-de5f-48e3-a7ad-92046ed8ce2c)
     

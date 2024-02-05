@@ -19,17 +19,17 @@
 
 - оптимизированы запросы к базе данных с помощью debug toolbar
   - Например, по адресу http://127.0.0.1:8000/catalogue/ к БД было сделано 19 запросов:
-  - 
+    
     ![image](https://github.com/beAgun/django_workout_/assets/140337252/a9c7dd41-a5d4-4dbd-801f-bb5ccf2b6aad)
     
     ![image](https://github.com/beAgun/django_workout_/assets/140337252/b5fdb0ad-9516-467b-8d84-be2e0e603e55)
     
-    После оптимизации при том же содержании страницы 10 запросов:
+    После оптимизации (при том же содержании) страницы 10 запросов:
     
     ![image](https://github.com/beAgun/django_workout_/assets/140337252/d1082f7f-de5f-48e3-a7ad-92046ed8ce2c)
     
   - По адресу http://127.0.0.1:8000/equipment/shtanga/ к БД было сделано 14 запросов:
-  - 
+    
     ![image](https://github.com/beAgun/django_workout_/assets/140337252/d6e0c48d-7ccc-4dd0-abdd-bd7c03c38a5c)
     
     ![image](https://github.com/beAgun/django_workout_/assets/140337252/e7ee68c2-ce97-4deb-a46c-84588c9cd147)
@@ -39,7 +39,7 @@
     ![image](https://github.com/beAgun/django_workout_/assets/140337252/91be22db-56fc-4423-9e2a-fb4d6e14c27b)
     
   - По адресу http://127.0.0.1:8000/tracker/workout/2/ к БД был сделан 21 запрос:
-  - 
+    
     ![image](https://github.com/beAgun/django_workout_/assets/140337252/f586b10a-95d4-42db-b504-2c891368525c)
     
     ![image](https://github.com/beAgun/django_workout_/assets/140337252/0956d5b8-1621-4a6f-b347-48b030f7c865)

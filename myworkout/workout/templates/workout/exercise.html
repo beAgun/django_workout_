@@ -3,38 +3,56 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-2 my-4 mx-3">
-    {% include 'workout/includes/sidebar.html' %}
+    <div class="row justify-content-end">
+            <button class="btn d-lg-none w-auto" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive">
+                <img width="24" height="24" src="https://img.icons8.com/material-sharp/24/back--v1.png" alt="back--v1"/>
+                категории
+            </button>
+        </div>
+    <div class="col-xl-2 col-lg-2 col-md-none col-sm-0 my-lg-4 mx-lg-3" style="padding: 0;">
+        <div class="offcanvas-lg offcanvas-end my-offcanvas" tabindex="-1" id="offcanvasResponsive"
+             aria-labelledby="offcanvasResponsiveLabel">
+            <div class="offcanvas-header " >
+                <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Категории упражнений</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                {% include 'workout/includes/sidebar.html' %}
+            </div>
+        </div>
     </div>
 
-    <div class="col">
-    <div class="container text-center my-3">
-    <h2>{{ ex.name }}</h2>
+    <div class="col my-3 text-center">
 
-        <div class="row row-cols-2 g-4 my-2">
-            <div class="col-6">
-                <div class="card h-100" style="width: 30rem;">
+    <h2 align="center">{{ ex.name }}</h2>
+
+        <div class="row row-xl-cols-2 row-lg-cols-2 row-md-cols-1 row-sm-cols-1 my-1 g-4 text-center">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="card mx-auto" style="max-width: 30rem;">
                 {% if ex.image %}
                 <img class="rounded" style="max-width: 100%;" src="{{ ex.image.url }}" alt="Image">
                 {% endif %}
                 </div>
             </div>
-            <div class="col-6">
-                <div class="card" style="">
+            {% if muscles or equipments or levels %}
+            <div class="col">
+                <div class="card text-start mx-auto" style="max-width: 30rem;">
                     <div class="card-body d-flex flex-column">
-                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.muscle subtitle='Целевые мышцы' %}
-                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.equipment subtitle='Инвентарь' %}
-                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.level subtitle='Уровень' %}
+                    {% include 'workout/includes/exercise_card_categories.html' with object=muscles subtitle='Целевые мышцы' %}
+                    {% include 'workout/includes/exercise_card_categories.html' with object=equipments subtitle='Инвентарь' %}
+                    {% include 'workout/includes/exercise_card_categories.html' with object=levels subtitle='Уровень' %}
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
 
-        <div class="row g-4 my-2">
+        <div class="row g-4 my-1 text-center">
         {% for title, text in ex.get_text_elements.items %}
         {% if text %}
-        <div class="col">
-            <div class="card h-100 text-start" style="width: 30rem;">
+        <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+            <div class="card h-100 text-start mx-auto" style="max-width: 30rem;">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title" align="center">{{title}}:</h5>
                     <hr style="margin: 0 0 4px 0;">
@@ -48,7 +66,7 @@
         {% endfor %}
         </div>
 
-    </div>
+
     </div>
 </div>
 {% endblock %}

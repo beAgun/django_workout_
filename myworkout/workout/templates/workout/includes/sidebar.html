@@ -1,5 +1,6 @@
 {% load workout_tags %}
 
+
 <div class="sidebar">
     {% if cat_selected == 0 %}
     <h6 class="selected">Все упражнения</h6>
@@ -8,8 +9,14 @@
     {% endif %}
 
     {% show_muscles muscle_selected %}
-    <hr>
+    <hr style="">
     {% show_categories_by_equipment cat_selected %}
     <hr>
     {% show_categories_by_experience_level cat_selected %}
+    <br>
+    <p style="color: #666; font-size: 14px;">
+        При подготовке материалов была использована книга
+        'Большая книга мыщц: гениальный путеводитель по идеальной
+        физической форме' / Я. Кинг, Л. Шулер.
+    </p>
 </div>

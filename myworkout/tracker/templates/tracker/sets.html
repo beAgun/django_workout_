@@ -1,10 +1,12 @@
-<ol>
-    {% for s in object.all %}
-    <li>
-        {% if s.weight %} {{ s.weight }} кг {% endif %}
-        {% if s.reps %} {{ s.reps }} повт. {% endif %}
-        {% if s.time %} время: {{ s.time }} {% endif %}
-        {% if s.distance %} {{ s.distance }} км {% endif %}
-    </li>
-    {% endfor %}
-</ol>
+{% load tracker_tags %}
+
+
+{% if object %}
+    {% if workout.view %}
+        {% show_sets_table object type workout.id i.exercise.slug %}
+    {% else %}
+        {% include 'tracker/sets_grid.html' %}
+    {% endif %}
+{% endif %}
+
+

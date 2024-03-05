@@ -1,0 +1,16 @@
+{% extends 'tracker/workout_detail.html' %}
+
+{% block delete_exercise %}
+
+<form method="post">{% csrf_token %}
+
+
+    <div class="row my-4 mx-2 g-2">
+    <h6>{{ subtitle }}</h6>
+    <p>Вы уверены, что хотите удалить упражнение
+        <strong>{{ object.exercise|lower }}</strong> ?</p>
+    <input class="my-btn" type="submit" value="&#10004;">
+    </div>
+
+</form>
+{% endblock %}

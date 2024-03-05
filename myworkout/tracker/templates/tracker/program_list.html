@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-4">
+
+    <div class="row g-4">
+    {% for pr in programs %}
+        <div class="col-auto">
+            <div class="card h-100" style="width: 22rem;">
+              <div class="card-body d-flex flex-column text-start">
+                <h5 class="card-title">{{ pr.title }}</h5>
+                {#<h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>#}
+                <p class="card-text">{{ pr.description }}</p>
+                <span>
+                {% if pr.period.id == 1 %}
+                <a href="{% url 'tracker:week_program_view' pr.slug %}" class="card-link" style="margin-top: auto;">Детали</a>
+                {% else %}
+                <a href="{% url 'tracker:day_program_view' pr.slug %}" class="card-link" style="margin-top: auto;">Детали</a>
+                {% endif %}
+                <a href="{% url 'tracker:edit_program' pr.slug %}" class="card-link" style="margin-top: auto;">Редактировать</a>
+                </span>
+              </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+    <div class="row my-4">
+        <a href="{% url 'tracker:create_program' %}">Создать программу</a>
+    </div>
+</div>
+
+{% endblock %}
+

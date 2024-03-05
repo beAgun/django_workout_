@@ -1,39 +1,180 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container my-4 mx-4">
-    <div class="card" style="width: 18rem;">
+<div class="container my-4" style="padding: 0;">
+    <div class="card mx-auto" style="width: auto; border-radius: 20px;
+                             background: #fff
+                             max-width: 70rem;">
         <div class="card-body">
-            <span style="whitespace: nowrap;">
-            <h5 class="card-title">{{ workout.title }}</h5>
-            <p>{{ workout.date }}</p>
-            </span>
+            <div class="card-title">
+                <div style="float: right; display: flex; height: 5px;">
+                    {% if workout.program is None %}
+                    <a class="my-btn" href="{% url 'tracker:archive_week' workout.date.year workout.date.isocalendar.week %}">
+                        <!--&#9664;-->
+                        <img width="15" height="15" src="https://img.icons8.com/ios-filled/50/u-turn-to-left.png" alt="u-turn-to-left"/>
+                    </a>
+                    {% else %}
+                        {% if workout.program.period.id == 1 %}
+                        <a class="my-btn" href="{% url 'tracker:week_program_view' workout.program.slug %}">
+                            <!--&#9664;-->
+                            <img width="15" height="15" src="https://img.icons8.com/ios-filled/50/u-turn-to-left.png" alt="u-turn-to-left"/>
+                        </a>
+                        {% else %}
+                        <a class="my-btn" href="{% url 'tracker:day_program_view' workout.program.slug %}">
+                            <!--&#9664;-->
+                            <img width="15" height="15" src="https://img.icons8.com/ios-filled/50/u-turn-to-left.png" alt="u-turn-to-left"/>
+                        </a>
+                        {% endif %}
+                    {% endif %}
+                    {% if workout.view %}
+                    <a class="my-btn" href="{% url 'tracker:workout_grid' workout.id %}">
+                        <!--&#9664;-->
+                        <img width="15" height="15" src="https://img.icons8.com/material-sharp/24/grid.png" alt="grid"/>
+                    </a>
+                    {% else %}
+                    <a class="my-btn" href="{% url 'tracker:workout_table' workout.id %}">
+                        <!--&#9664;-->
+                        <img width="20" height="20" src="https://img.icons8.com/windows/32/new-spreadsheet.png" alt="new-spreadsheet"/>
+                    </a>
+                    {% endif %}
+                    {% if workout.program is None %}
+                    <a class="my-btn" href="{% url 'tracker:edit_workout' workout.id %}">
+                        <img width="18" height="18" src="https://img.icons8.com/windows/32/edit--v1.png" alt="edit--v1"/>
+                    </a>
+                    {% else %}
+                    <a class="my-btn" href="{% url 'tracker:edit_program_workout' workout.id %}">
+                        <img width="18" height="18" src="https://img.icons8.com/windows/32/edit--v1.png" alt="edit--v1"/>
+                    </a>
+                    {% endif %}
+                    <a class="my-btn" href="{% url 'tracker:delete_workout' workout.id %}">
+                        <img width="15" height="15" src="https://img.icons8.com/ios-filled/50/delete-sign.png" alt="delete-sign"/>
+                    </a>
+                </div>
+                <h5 class="card-title">
+                    {{ workout.title }}
+                    {% if workout.program is None %}
+                    , {{ workout.date }}
+                    {% if workout.time %}, {{ workout.time }} {% endif %}
+                    {% endif %}
+                </h5>
+                <h6>{% if workout.workout_type %} {{ workout.workout_type }} {% endif %}</h6>
+            </div>
             {% if workout.description %}
             <p class="card-text">{{ workout.description }}</p>
             {% endif %}
-            <ul>
+
+            <hr>
+
             {% for i in exercise_workout_list %}
-                <li>
-                    <a href="{{ i.exercise.get_absolute_url }}">{{ i.exercise.name }}</a>
-                    {% include 'tracker/sets.html' with object=i.sets1 %}
-                    {% include 'tracker/sets.html' with object=i.sets2 %}
-                    {% include 'tracker/sets.html' with object=i.sets3 %}
-                    {% include 'tracker/sets.html' with object=i.sets4 %}
-                    <a href="{% url 'tracker:add_set' workout.id i.exercise.slug %}">add set</a>
-                </li>
+            <div class="row row-xl-cols-2 row-lg-cols-2 row-cols-1 g-4 my-1 w-auto">
+
+                    <div class="col-xl-3 col-lg-3 col-sm-12 col-12" style="max-width: 15rem;
+                                                   padding: 0px;">
+                        <div class="" style="flex: left; margin: 0 0 0 16px;">
+                        <div style="float: right; display: flex; height: 5px;">
+                        <a class="my-btn" href="{% url 'tracker:edit_workout_exercise' workout.id i.exercise.slug %}?exerciseworkout_id={{ i.id }}">
+                            <img width="18" height="18" src="https://img.icons8.com/windows/32/edit--v1.png" alt="edit--v1"/>
+                        </a>
+                        <a class="my-btn"
+                           href="{% url 'tracker:delete_workout_exercise' workout.id i.exercise.slug %}?exerciseworkout_id={{ i.id }}&delete=true">
+                            <img width="15" height="15" src="https://img.icons8.com/ios-filled/50/delete-sign.png" alt="delete-sign"/>
+                        </a>
+                        </div>
+                        {#<p style="float: left; height: 100%; margin: auto 5px auto 0;">{{forloop.counter}}. </p>#}
+                        <p class="list-exercises">
+                        {{forloop.counter}}.
+                        <a href="{{ i.exercise.get_absolute_url }}">
+                            {{ i.exercise.name }}</a>
+                        </p>
+
+
+
+                        {% if request.GET.exerciseworkout_id != i.id|slugify %}
+                            {% if i.description %}
+                            <hr>
+                            <p>{{ i.description }}</p>
+                            {% endif %}
+                        {% else %}
+                            {% block edit_exerciseworkout %}{% endblock %}
+                        {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-xl-9 col-lg-9 col-sm-12 col-12 text-start" style="background: #fff;
+
+                                                            padding: 0px;
+                                                            border-radius: 20px;">
+                    {% with type=i.exercise.workout_type_id %}
+                        {% if type == 1 %}
+                            {% with sets=i.sets1.all %}
+                                    {% include 'tracker/sets.html' with object=sets %}
+                            {% endwith %}
+                        {% endif %}
+
+                        {% if type == 2 %}
+                            {% with sets=i.sets2.all %}
+                                {% if sets %}
+                                    {% include 'tracker/sets.html' with object=sets %}
+                                {% endif %}
+                            {% endwith %}
+                        {% endif %}
+
+                        {% if type == 3 %}
+                            {% with sets=i.sets3.all %}
+                                {% if sets %}
+                                    {% include 'tracker/sets.html' with object=sets %}
+                                {% endif %}
+                            {% endwith %}
+                        {% endif %}
+
+                        {% if type == 4 %}
+                            {% with sets=i.sets4.all %}
+                                {% if sets %}
+                                    {% include 'tracker/sets.html' with object=sets %}
+                                {% endif %}
+                            {% endwith %}
+                        {% endif %}
+
+                    {% endwith %}
+
 
                     {% if i.exercise.slug == ex_slug %}
                         {% block add_set %}
                         {% endblock %}
+                    {% else %}
+                        <div class="mx-4 text-start">
+                        <div style="flex: left; display: inline-block; width: 30px; margin: 30px 0 0 0;" class="">
+                        <a class="my-btn" href="{% url 'tracker:add_set' workout.id i.exercise.slug %}"
+                           style="">
+                            <img width="15" height="15" src="https://img.icons8.com/ios-filled/50/plus-math.png" alt="plus-math"/>
+                        </a>
+                        </div><span>добавить подход</span>
+                        </div>
                     {% endif %}
+
+                    </div>
+
+
+                    {% if request.GET.delete == 'true' and request.GET.exerciseworkout_id == i.id|slugify %}
+                    {% block delete_exercise %}{% endblock %}
+                    {% endif %}
+
+
+            </div>
+            <hr style="border: 2px dashed #ddd; margin: 0 auto 2 auto;">
             {% endfor %}
-            </ul>
+
 
             {% block add_exercise_form %}
             {% endblock %}
 
             {% if workout.id %}
-            <a href="{% url 'tracker:add_workout_exercise' workout.id %}">add exercise</a>
+            <div style="flex: left; display: inline-block; width: 30px;">
+            <a class="my-btn" href="{% url 'tracker:add_workout_exercise' workout.id %}"
+               style="">
+                <img width="15" height="15" src="https://img.icons8.com/ios-filled/50/plus-math.png" alt="plus-math"/>
+            </a>
+            </div><span>добавить упражнение</span>
             {% endif %}
       </div>
     </div>

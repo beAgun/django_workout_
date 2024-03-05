@@ -1,0 +1,60 @@
+{% load template_filters %}
+
+
+<div class="row row-xl-cols-4 row-lg-cols-4 row-md-cols-3 row-sm-cols-3 row-cols-2 g-4 mx-2">
+
+    {% for s in object %}
+    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-6 justify-content-center ">
+        <div style="display: flex;
+                    justify-content: center;
+                    align-items: top;
+                    min-width: 7rem;"
+                    class="">
+
+        <div style="flex-wrap: wrap; align-content: flex-start; display:inline-block;">
+
+        <span style="color: #000; margin: 0 0px 0 0;">подход №{{ forloop.counter }}</span><br>
+
+        {% if s.weight %}
+            {% if s.is_work %}
+            <span class="myset">{{ s.weight|normalize }} кг </span>
+            {% else %}
+            <span class="myset" style="background: rgb(250,250,250);">{{ s.weight|normalize }} кг </span>
+            {% endif %}
+        {% endif %}
+
+        {% if s.reps %}
+            {% if s.is_work  %}
+            <span class="myset">{{ s.reps }} повт. </span>
+            {% else %}
+            <span class="myset" style="background: rgb(250,250,250);">{{ s.reps }} повт. </span>
+            {% endif %}
+        {% endif %}
+
+        {% if s.time %}
+        {% if s.weight or s.reps %}<br>{% endif %}
+            {% if s.is_work or s.is_work is None %}
+            <span class="myset">{{ s.time|duration }} </span>
+            {% else %}
+            <span class="myset" style="background: rgb(250,250,250);">{{ s.time|duration }} </span>
+            {% endif %}
+        {% endif %}
+
+        {% if s.distance %}
+        <span class="myset">{{ s.distance|normalize }} км </span>
+        {% endif %}
+
+        </div>
+        <div style="flex-wrap: wrap; align-content: flex-start; display:inline-block;">
+            <a class="my-btn" style="margin: 0;" href="{% url 'tracker:edit_set' workout.id i.exercise.slug s.id %}">
+                <img width="18" height="18" src="https://img.icons8.com/windows/32/edit--v1.png" alt="edit--v1"/>
+            </a>
+            <a class="my-btn" style="margin: 0;" href="{% url 'tracker:delete_set' workout.id i.exercise.slug s.id %}">
+                <img width="15" height="15" src="https://img.icons8.com/ios-filled/50/delete-sign.png" alt="delete-sign"/>
+            </a>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>

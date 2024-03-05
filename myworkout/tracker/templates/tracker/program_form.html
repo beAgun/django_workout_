@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-4">
+    <h6>{{ subtitle }}</h6>
+    <div class="row my-4">
+        <div class="col-xl-8 col-lg-6 col-md-8 col-sm-12">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-error">{{ form.non_field_errors }}</div>
+
+                <div class="row row-cols-1 g-4">
+
+                    <div class="col-12">
+                        <label class="form-label" for="{{ form.title.id_for_label }}">
+                            {{ form.title.label }}
+                        </label>
+                        {{ form.title }}
+                        <div class="form-error">{{ form.title.errors }}</div>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label" for="{{ form.slug.id_for_label }}">
+                            {{ form.slug.label }}
+                        </label>
+                        {{ form.slug }}
+                        <div class="form-error">{{ form.slug.errors }}</div>
+                    </div>
+
+                    <div class="col-9">
+                        <label class="form-label" for="{{ form.program_category.id_for_label }}">
+                            {{ form.program_category.label }}
+                        </label>
+                        {{ form.program_category }}
+                        <div class="form-error">{{ form.program_category.errors }}</div>
+                        <br>
+                        <p>Нет нужной категории?
+                            <a href="{% url 'tracker:add_program_category' %}">Добавь свою</a>
+                        </p>
+                    </div>
+
+                    <div class="col-3">
+                        <label class="form-label" for="{{ form.period.id_for_label }}">
+                            {{ form.period.label }}
+                        </label>
+                        {{ form.period }}
+                        <div class="form-error">{{ form.period.errors }}</div>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label" for="{{ form.description.id_for_label }}">
+                            {{ form.description.label }}
+                        </label>
+                        {{ form.description }}
+                        <div class="form-error">{{ form.description.errors }}</div>
+                    </div>
+
+                    <div class="col-auto">
+                        <label class="form-label" for="{{ form.is_published.id_for_label }}">
+                            {{ form.is_published.label }}
+                        </label>
+                        {{ form.is_published }}
+                        <div class="form-error">{{ form.is_published.errors }}</div>
+                    </div>
+
+                <p><button class="btn btn-outline-primary" type="submit">Сохранить</button></p>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

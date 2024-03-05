@@ -2,63 +2,41 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.utils.text import slugify
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView, UpdateView
 
 from .models import Exercise, TargetMuscle, Equipment, ExperienceLevel
-from .forms import AddExerciseForm
+from .forms import AddExerciseForm, CatalogueFilteredForm
 from .utils import DataMixin
 
 
-# Create your views here.
-# def index(req):
-#     data = {
-#         'title': 'Главная',
-#         'menu': menu,
-#     }
-#     return render(req, template_name='workout/index.html', context=data)
+def translit_to_eng(s: str) -> str:
+    d = {'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e',
+         'ё': 'yo', 'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'j', 'к': 'k',
+         'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r',
+         'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch',
+         'ш': 'sh', 'щ': 'sh', 'ь': '', 'ы': 'y', 'ъ': '', 'э': 'e', 'ю': 'yu',
+         'я': 'ya', ' ': '-', '/': '-', ',': '', '«': '', '»': '',}
+
+    return "".join(map(lambda x: d[x] if x in d else x, s.lower()))
 
 
 class WorkoutHome(DataMixin, TemplateView):
     template_name = 'workout/index.html'
     title_page = 'Главная'
-    # extra_context = {
-    #     'title': 'Главная',
-    #     'menu': menu,
-    # }
-
-
-# def show_catalogue(req):
-#     exercises = Exercise.objects.all()
-#     data = {
-#         'title': 'Каталог упражнений',
-#         'menu': menu,
-#         'exercises': exercises,
-#         'cat_selected': 0,
-#     }
-#     return render(req, template_name='workout/catalogue.html', context=data)
 
 
 class Catalogue(DataMixin, ListView):
-    model = Exercise
+    #model = Exercise
     template_name = 'workout/catalogue.html'
     context_object_name = 'exercises'
     title_page = 'Каталог упражнений'
     cat_selected = 0
 
-
-# def show_exercise(req, ex_slug):
-#     ex = get_object_or_404(Exercise, slug=ex_slug)
-#     data = {
-#         'title': ex.name,
-#         'menu': menu,
-#         'ex': ex,
-#         'cat_selected': 1,
-#         'muscle': 1,
-#         #'categories': categories,
-#     }
-#     return render(req, template_name='workout/exercise.html', context=data)
+    def get_queryset(self):
+        return Exercise.objects.all().prefetch_related('muscle').prefetch_related('equipment').prefetch_related('level')
 
 
 class ShowExercise(DataMixin, DetailView):
@@ -69,20 +47,10 @@ class ShowExercise(DataMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        return self.get_mixin_context(context, title=context['ex'].name)
-
-
-# def show_category_by_equipment(req, cat_slug):
-#     equipment = get_object_or_404(Equipment.objects.filter(slug=cat_slug))
-#     exercises = equipment.exercises.all()
-#
-#     data = {
-#         'title': 'Отображение по используемому инвентарю',
-#         'menu': menu,
-#         'exercises': exercises,
-#         'cat_selected': equipment.pk,
-#     }
-#     return render(req, template_name='workout/catalogue.html', context=data)
+        return self.get_mixin_context(context, title=context['ex'].name,
+                                      muscles=self.object.muscle.all(),
+                                      equipments=self.object.equipment.all(),
+                                      levels=self.object.level.all(),)
 
 
 class CatalogueByEquipment(DataMixin, ListView):
@@ -90,20 +58,21 @@ class CatalogueByEquipment(DataMixin, ListView):
     context_object_name = 'exercises'
     #allow_empty = False
 
-    # extra_context = {
-    #     'menu': menu,
-    # }
-
     def get_queryset(self):
         equipment = get_object_or_404(Equipment.objects.filter(slug=self.kwargs['eq_slug']))
+        self.extra_context = {
+            'title': 'Категория: ' + equipment.name,
+            'cat_selected': equipment.slug,
+        }
         return equipment.exercises.all()
-        #return Exercise.objects.filter(slug=self.kwargs['cat_slug']).select_related('exercises')
+        #return Exercise.objects.prefetch_related('equipment').filter(slug=self.kwargs['eq_slug'])
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        equipment = Equipment.objects.get(slug=self.kwargs['eq_slug'])
-        return self.get_mixin_context(context, title='Категория: ' + equipment.name,
-                                               cat_selected=equipment.slug)
+
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     equipment = Equipment.objects.get(slug=self.kwargs['eq_slug'])
+    #     return self.get_mixin_context(context, title='Категория: ' + equipment.name,
+    #                                            cat_selected=equipment.slug)
 
 
 class CatalogueByLevel(DataMixin, ListView):
@@ -111,36 +80,13 @@ class CatalogueByLevel(DataMixin, ListView):
     context_object_name = 'exercises'
     #allow_empty = False
 
-    # extra_context = {
-    #     'menu': menu,
-    # }
-
     def get_queryset(self):
         level = get_object_or_404(ExperienceLevel.objects.filter(slug=self.kwargs['lvl_slug']))
+        self.extra_context = {
+            'title': 'Категория: ' + level.name,
+            'cat_selected': level.slug,
+        }
         return level.levels.all()
-        #return Exercise.objects.filter(slug=self.kwargs['cat_slug']).select_related('exercises')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        level = ExperienceLevel.objects.get(slug=self.kwargs['lvl_slug'])
-        return self.get_mixin_context(context, title='Категория: ' + level.name,
-                                               cat_selected=level.slug)
-
-
-# def show_muscle(req, muscle_path):
-#     print(muscle_path)
-#     muscle_slug = muscle_path.split('/')[-1]
-#     muscle = get_object_or_404(TargetMuscle.objects.filter(slug=muscle_slug))
-#     exercises = Exercise.objects.filter(muscle__in=muscle.get_descendants(include_self=True)).distinct()
-#
-#     data = {
-#         'title': 'Отображение по целевой группе мышц',
-#         'menu': menu,
-#         'exercises': exercises,
-#         'muscle_selected': muscle,
-#         'path': muscle_path,
-#     }
-#     return render(req, template_name='workout/catalogue.html', context=data)
 
 
 class CatalogueByMuscle(DataMixin, ListView):
@@ -148,18 +94,53 @@ class CatalogueByMuscle(DataMixin, ListView):
     context_object_name = 'exercises'
 
     def get_queryset(self):
-        muscle_slug = self.kwargs['muscle_path'].split('/')[-1]
-        muscle = get_object_or_404(TargetMuscle.objects.filter(slug=muscle_slug))
-        return Exercise.objects.filter(muscle__in=muscle.get_descendants(include_self=True)).distinct()
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
         muscle_path = self.kwargs['muscle_path']
         muscle_slug = muscle_path.split('/')[-1]
-        muscle = TargetMuscle.objects.get(slug=muscle_slug)
-        return self.get_mixin_context(context, title='Категория: ' + muscle.name,
-                                               muscle_selected=muscle,
-                                               path=muscle_path)
+
+        muscle = get_object_or_404(TargetMuscle.objects.filter(slug=muscle_slug))
+
+        self.extra_context = {
+            'title': 'Категория: ' + muscle.name,
+            'muscle_selected': muscle,
+            'path': muscle_path,
+        }
+        muscles = list(TargetMuscle.objects.filter(id__in=muscle.get_descendants))
+        return Exercise.objects.filter(muscle__in=muscles).distinct()
+        #return Exercise.objects.filter(muscle__in=muscle.get_descendants(include_self=True)).distinct()
+        #muscle = TargetMuscle.objects.filter(id__in=muscle.get_descendants)
+
+
+class CatalogueFiltered(ListView, View):
+    template_name = 'workout/catalogue.html'
+    context_object_name = 'exercises'
+    extra_context = {'form': CatalogueFilteredForm()}
+
+    # def get(self, req):
+    #     form = CatalogueFilteredForm()
+    #     return render(req, 'workout/add_exercise.html', context=data)
+
+    def post(self, req):
+        form = CatalogueFilteredForm(req.POST, req.FILES)
+        #print(form.fields)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+        data = {
+            'menu': menu,
+            'title': 'Добавление упражнения',
+            'form': form,
+        }
+        return render(req, 'workout/add_exercise.html', context=data)
+
+    def get_queryset(self):
+        muscle_slug = self.request.GET['muscle']
+        muscle = get_object_or_404(TargetMuscle.objects.filter(slug=muscle_slug))
+        muscles = list(TargetMuscle.objects.filter(id__in=muscle.get_descendants))
+        equipment_slug = self.request.GET['equipment']
+        level_slug = self.request.GET['level']
+        return Exercise.objects.filter(muscle__in=muscles, equipment_slug=equipment_slug, level_slug=level_slug).distinct()
+
 
 
 # def add_exercise(req):
@@ -206,17 +187,22 @@ class CatalogueByMuscle(DataMixin, ListView):
 
 
 class AddExercise(LoginRequiredMixin, DataMixin, CreateView):
-    # form_class = AddExerciseForm
-    model = Exercise
-    fields = '__all__'
+    form_class = AddExerciseForm
     template_name = 'workout/add_exercise.html'
-    # success_url = reverse_lazy('home')
     title_page = 'Добавление упражнения'
+    slug = None
     #login_url = '/admin/'
 
-    # def form_valid(self, form):
-    #     form.save()
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        ex = form.save(commit=False)
+        self.slug = translit_to_eng(form.cleaned_data['name'])
+        ex.slug = self.slug
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        if self.request.GET.get('next', False):
+            return self.request.GET['next']
+        return reverse('exercise', kwargs={'ex_slug': self.slug})
 
 
 class EditExercise(DataMixin, UpdateView):

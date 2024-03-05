@@ -1,20 +1,24 @@
 {% extends 'tracker/workout_detail.html' %}
 
 {% block add_exercise_form %}
-<div class="container my-4">
-    <div class="row">
-        <div class="col-4">
-            <form method="post">
-                {% csrf_token %}
-
-                <div class="form-error">{{ form.non_field_errors }}</div>
-                {% for f in form %}
-                <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
-                <div class="form-error">{{ f.errors }}</div>
-                {% endfor %}
-                <p><button type="submit">Save</button></p>
-            </form>
+<h6>{{ subtitle }}</h6>
+<form method="post">
+    {% csrf_token %}
+    <div class="row my-4">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            {% for f in form %}
+            <div class="form-error">{{ f.errors }}</div>
+            <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+            {% endfor %}
+            <div style="float: right;">
+            <button type="submit" class="my-btn-btn">&#10004;</button>
+            </div>
+            <div>
+                <p>Не нашёл нужного упражнения?<br><a href="{% url 'add_exercise' %}?next={{request.path}}">Добавь своё</a></p>
+            </div>
         </div>
     </div>
-</div>
+
+</form>
 {% endblock %}

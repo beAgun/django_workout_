@@ -66,12 +66,18 @@ class ProfileUserForm(forms.ModelForm):
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.CharField(label='E-mail', disabled=True,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
-    #this_year = datetime.today().year
-    #date_birth = forms.DateField(widget=forms.SelectDateWidget(years=tuple(range(this_year-100, this_year-5))))
+    this_year = datetime.today().year
+    date_birth = forms.DateField(label='Дата рождения',
+                                 widget=forms.SelectDateWidget(
+                                     years=tuple(range(this_year-100, this_year-5)),
+                                    attrs={'class': 'form-control',
+                                           'style': 'width: auto; display: inline;'})
+                                 )
+
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'photo', 'email', 'date_birth', 'first_name', 'last_name']
+        fields = ['username', 'email', 'photo', 'date_birth', 'first_name', 'last_name']
         labels = {
             'first_name': 'Имя',
             'last_name': 'Фамилия',
@@ -82,7 +88,8 @@ class ProfileUserForm(forms.ModelForm):
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'photo': forms.FileInput(attrs={'type': 'file', 'class': 'form-control', 'id': "formFile"}),
-            'date_birth': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'date_birth': forms.TextInput(attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)',
+                                                 'class': 'form-control'}),
         }
 
 

@@ -1,16 +1,70 @@
 {% extends 'tracker/workout_detail.html' %}
 
 {% block add_set %}
-<div class="container my-4">
 <form method="post">
     {% csrf_token %}
+        <div class="row my-4 mx-4 g-2">
+            <h6>{{ subtitle }}</h6>
+            <div class="form-error">{{ form.non_field_errors }}</div>
 
-    <div class="form-error">{{ form.non_field_errors }}</div>
-    {% for f in form %}
-    <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
-    <div class="form-error">{{ f.errors }}</div>
-    {% endfor %}
-    <p><button type="submit">Save</button></p>
+            {% if form.weight %}
+            <div class="col-lg-2 col-md-3 col-sm-12">
+                {{ form.weight }}
+                <label class="form-label" for="" style="font-size: 16px; text-align: start;
+                                                        margin: 0 0 0 3px;">
+                    {{ form.weight.label }}
+                </label>
+                <div class="form-error">{{ form.weight.errors }}</div>
+            </div>
+            {% endif %}
+
+            {% if form.reps %}
+            <div class="col-lg-2 col-md-3 col-sm-12">
+                {{ form.reps }}
+                <label class="form-label" for="" style="font-size: 16px; text-align: start;
+                                                        margin: 0 0 0 3px;">
+                    {{ form.reps.label }}
+                </label>
+                <div class="form-error">{{ form.reps.errors }}</div>
+            </div>
+            {% endif %}
+
+            {% if form.time %}
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                {{ form.time }}
+                <label class="form-label" for="" style="font-size: 16px; text-align: start;
+                                                        margin: 0 0 0 3px;">
+                    {{ form.time.label }}
+                </label>
+                <div class="form-error">{{ form.time.errors }}</div>
+            </div>
+            {% endif %}
+
+            {% if form.distance %}
+            <div class="col-lg-2 col-md-3 col-sm-12">
+                {{ form.distance }}
+                <label class="form-label" for="" style="font-size: 16px; text-align: start;
+                                                        margin: 0 0 0 3px;">
+                    {{ form.distance.label }}
+                </label>
+                <div class="form-error">{{ form.distance.errors }}</div>
+            </div>
+            {% endif %}
+
+            {% if form.is_work %}
+            <div class="col-lg-2 col-md-3 col-sm-12">
+                {{ form.is_work }}
+                <label class="form-label" for="" style="font-size: 16px; text-align: start;
+                                                        margin: 0 0 0 3px;">
+                    {{ form.is_work.label }}
+                </label>
+                <div class="form-error">{{ form.is_work.errors }}</div>
+            </div>
+            {% endif %}
+
+            <div class="my-4" style="display: block; float: right;">
+                <button type="submit" class="my-btn-btn">&#10004;</button>
+            </div>
+        </div>
 </form>
-</div>
 {% endblock %}

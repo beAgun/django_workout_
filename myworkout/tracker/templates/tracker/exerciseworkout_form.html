@@ -1,0 +1,21 @@
+{% extends 'tracker/workout_detail.html' %}
+
+{% block edit_exerciseworkout %}
+<form method="post" >
+    {% csrf_token %}
+
+    <div class="form-error">{{ form.non_field_errors }}</div>
+    {% for f in form %}
+        {{ f }}
+        <label class="form-label" for="" style="font-size: 16px; text-align: start;
+                                                margin: 0px 0 0 3px; padding: 0;">
+            {{ f.label }}
+        </label>
+        <div class="form-error">{{ f.errors }}</div>
+    {% endfor %}
+    <div style="float: right; display: block;">
+        <button type="submit" class="my-btn-btn">&#10004;</button>
+    </div>
+
+</form>
+{% endblock %}

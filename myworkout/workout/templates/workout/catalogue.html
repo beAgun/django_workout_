@@ -1,28 +1,44 @@
 {% extends 'base.html' %}
 {% load workout_tags %}
 
-
 {% block content %}
 <div class="row">
-    <div class="col-2 my-4 mx-3">
-    {% include 'workout/includes/sidebar.html' %}
+    <div class="row justify-content-end">
+        <button class="btn d-lg-none w-auto" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive">
+            <img width="24" height="24" src="https://img.icons8.com/material-sharp/24/back--v1.png" alt="back--v1"/>
+            категории
+        </button>
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-none col-sm-0 my-lg-4 my-sm-0 mx-sm-0 mx-lg-3" style="padding: 0;">
+        <div class="offcanvas-lg offcanvas-end my-offcanvas" tabindex="-1" id="offcanvasResponsive"
+             aria-labelledby="offcanvasResponsiveLabel">
+            <div class="offcanvas-header ">
+                <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Категории упражнений</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body" style="font-size: 30px;">
+                {% include 'workout/includes/sidebar.html' %}
+            </div>
+        </div>
     </div>
 
-    <div class="col" style="">
-        <div class="row row-cols-3">
+
+    <div class="col">
+        <div class="row row-xl-cols-3  row-lg-cols-2 row-md-cols-2 row-sm-cols-1 text-center">
         {% for ex in exercises %}
-        <div class="col g-4">
-            <div class="card h-100" style="width: 20rem; height: 20rem;">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 gy-4 gx-4 ">
+            <div class="card h-100 mx-auto w-auto my-card-width">
                 {% if ex.image %}
                 <img src="{{ ex.image.url }}"  class="card-img-top" alt="Image">
                 {% endif %}
 
-                <div class="card-body d-flex flex-column ">
+                <div class="card-body d-flex flex-column text-start">
                     <h5 class="card-title" align="center">{{ ex.name }}</h5>
                     <hr style="margin: 0 0 4px 0;">
-                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.muscle subtitle='Целевые мышцы' %}
-                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.equipment subtitle='Инвентарь' %}
-                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.level subtitle='Уровень' %}
+                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.muscle.all subtitle='Целевые мышцы' %}
+                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.equipment.all subtitle='Инвентарь' %}
+                    {% include 'workout/includes/exercise_card_categories.html' with object=ex.level.all subtitle='Уровень' %}
 
                     {% autoescape off %}
                     <p class="card-text">{{ ex.description|truncatewords:'30' }}</p>

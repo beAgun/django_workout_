@@ -1,0 +1,42 @@
+{% load template_filters %}
+
+
+<table class="table my-table text-center">
+  <thead>
+  <tr scope="row"><th colspan="5">подходы</th></tr>
+    <tr scope="row">
+      <th scope="col">№</th>
+      {% if weight %}<th scope="col">вес, кг</th>{% endif %}
+      {% if reps %}<th scope="col">повт.</th>{% endif %}
+      {% if time %}<th scope="col">время</th>{% endif %}
+      {% if distance %}<th scope="col">путь, км</th>{% endif %}
+      <th></th>
+    </tr>
+  </thead>
+  <tbody class="">
+  {% for s in sets %}
+    {% if s.is_work or s.is_work is None %}
+    <tr class="working">
+    {% else %}
+    <tr class="warm-up">
+    {% endif %}
+        <th >{{ forloop.counter }}</th>
+        {% if weight %}<td>{% if s.weight %}{{ s.weight|normalize }}{% endif %}</td>{% endif %}
+        {% if reps %}<td>{% if s.reps %}{{ s.reps }}{% endif %}</td>{% endif %}
+        {% if time %}<td>{% if s.time %}{{ s.time|duration }}{% endif %}</td>{% endif %}
+        {% if distance %}<td>{% if s.distance %}{{ s.distance|normalize }}{% endif %}</td>{% endif %}
+
+        <td class="edit-delete-cell">
+        <div style="display: flex; float: right;">
+            <a class="my-btn" style="margin: 0;" href="{% url 'tracker:edit_set' workout exercise s.id %}">
+                <img width="18" height="18" src="https://img.icons8.com/windows/32/edit--v1.png" alt="edit--v1"/>
+            </a>
+            <a class="my-btn" style="margin: 0;" href="{% url 'tracker:delete_set' workout exercise s.id %}">
+                <img width="15" height="15" src="https://img.icons8.com/ios-filled/50/delete-sign.png" alt="delete-sign"/>
+            </a>
+        </div>
+        </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>

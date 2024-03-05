@@ -25,6 +25,8 @@ urlpatterns = [
     path('', include('workout.urls')),
     path('users/', include('users.urls', namespace='users')),
     path('tracker/', include('tracker.urls', namespace='tracker')),
+
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 admin.site.site_header = 'Administration'

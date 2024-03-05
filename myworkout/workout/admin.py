@@ -1,17 +1,29 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from mptt.admin import MPTTModelAdmin
-from .models import Exercise, Equipment, ExperienceLevel, TargetMuscle
-
+from .models import Exercise, Equipment, ExperienceLevel, TargetMuscle, WorkoutType
 
 # Register your models here.
 #admin.site.register(Exercise)
 
 
 @admin.register(TargetMuscle)
-class TargetMuscleMPTTModelAdmin(MPTTModelAdmin):
-    mptt_level_indent = 20
+class TargetMuscleAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'slug', 'position', 'parent')
+    list_display_links = ('id',)
+    list_editable = ('name', 'slug', 'position', 'parent')
     prepopulated_fields = {'slug': ('name',)}
+
+
+# @admin.register(TargetMuscle)
+# class TargetMuscleMPTTModelAdmin(MPTTModelAdmin):
+#     list_display = ('name', 'slug', 'position', 'parent')
+#     mptt_level_indent = 20
+#     prepopulated_fields = {'slug': ('name',)}
+
+@admin.register(WorkoutType)
+class WorkoutTypeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title')
 
 
 @admin.register(Exercise)

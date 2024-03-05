@@ -1,10 +1,12 @@
 
-
 body, .navbar {
     background-color: rgb(255, 87, 160, 0.1);
     background: -webkit-linear-gradient(90deg, #ffe5ff,#9b598d);/* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(90deg, #ffe5ff,#9b598d);/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     color: #000000;
+    /*background: rgb(157,152,255);
+    background: linear-gradient(90deg, rgba(157,152,255,1) 19%, rgba(72,177,220,1) 51%, rgba(0,97,123,1) 100%);
+    */
 }
 
 .nav-link {
@@ -14,6 +16,7 @@ body, .navbar {
 body {
     background: -webkit-linear-gradient(90deg, #ffffff,#fafafa);/* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(90deg, #ffffff,#fafafa);/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 
@@ -84,8 +87,8 @@ margin: 0px 0px 10px 20px; padding: 0px;
 
 /*pagination*/
 li.page-item page-link active {
-    background: #9b598d
-    color: #ffffff
+    background: #f8dbf7;
+    color: #000;
 }
 
 .week {
@@ -93,7 +96,7 @@ li.page-item page-link active {
     min-height: 400px;
 }
 
-table {
+table.week {
     --border: 1px solid rgb(192,192,192);
 
     border-spacing: 0;
@@ -101,9 +104,12 @@ table {
     border-radius: 20px;
     border: var(--border);
     overflow: hidden;
+    width: 1100px;
+    height: auto;
+    margin: 0 auto 0 auto;
 }
 
-th, td {
+th.head, .day td {
     padding: 5px;
     width: 300px;
     font-family: "Segoe UI";
@@ -122,8 +128,8 @@ th, td {
     padding: 0;
 }
 
-.week a {
-    margin: 0 0 0 10px;
+/*.week a {
+    margin: 0 0 0 0px;
     text-decoration: none;
     color: black;
     border: var(--border);
@@ -132,16 +138,30 @@ th, td {
     height: 25px;
     display: block;
 
+}*/
+
+.my-a {
+    margin: 0 0 0 16px;
+    text-decoration: none;
+    color: black;
+    border: var(--border);
+    border-radius: 5px;
+    width: 26px;
+    height: 26px;
+    display: block;
+    align-items: center;
+    vertical-align: center;
 }
 
-.week a:hover {
+.my-a:hover {
     background: #f8f9fa;
     color: #9b598d;
 }
 
-th {
+th.head {
     background: rgb(230,230,250);
     white-space: nowrap;
+    height: 30px;
 
 }
 
@@ -150,7 +170,7 @@ th {
 td {
 }
 
-tbody {
+tbody.week {
     vertical-align: top;
 }
 
@@ -179,4 +199,292 @@ tbody {
     color: #dc3545;
     margin: 0 0 0px 2px;
     padding: 0;
+}
+
+.myset {
+    /*border: 1px dashed #9b598d;*/
+    padding: 2px;
+    border-radius: 10px;
+    background: #f8dbf7;
+    margin: 4px 2px 1px 0;
+    display: inline-block;
+}
+
+.list-exercises a {text-decoration: none; color: #000000;}
+.list-exercises a:hover {color: #9b598d;}
+
+.my-btn{
+    margin: 0 0 0 0px;
+    text-decoration: none;
+    color: black;
+    border: 1px solid rgb(192,192,192);
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+    display: block;
+    text-align: center;
+    font-family: "Segoe UI";
+    font-size: 15px;
+    vertical-align: top;
+    background: none;
+
+}
+
+.my-btn:hover {
+    background: #f8f9fa;
+    color: #9b598d;
+
+}
+
+.my-btn-btn {
+    margin: 0 0 0 0px;
+    text-decoration: none;
+    color: black;
+    border: 1px solid rgb(192,192,192);
+    border-radius: 5px;
+    /*width: 25px;
+    height: 25px;
+    /*display: block;*/
+    text-align: center;
+    font-family: "Segoe UI";
+    font-size: 15px;
+    vertical-align: top;
+    background: none;
+
+}
+
+.my-btn-btn:hover {
+    background: #f8f9fa;
+    color: #9b598d;
+
+}
+/*
+.nav-item a {
+    background: rgb(255, 255, 255, 0.4);
+    border: 1px solid white;
+    border-radius: 0;
+    margin: 2px;
+}
+
+.nav-item a:hover {
+    background: rgb(255, 255, 255);
+}*/
+
+@media (max-width: 1200px) {
+    .scroll {
+        height: auto; /* высота нашего блока */
+        width: auto; /* ширина нашего блока */
+        overflow-x: scroll; /* прокрутка по горизонтали */
+        /*overflow-y: scroll; /* прокрутка по вертикали */
+    }
+}
+/*
+@media (max-width: 376px) {
+    div.my-offcanvas {
+        max-width: 80%;
+    }
+}*/
+
+@media (max-width: 426px) {
+    div.my-offcanvas {
+        max-width: 75%;
+    }
+
+}
+
+@media (max-width: 769px) {
+    /*div.my-offcanvas {
+        max-width: 35%;
+    }*/
+    ul.sidebar {
+        padding: 0px;
+        list-style-type: none;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 500px) {
+    .my-card-width {
+        max-width: auto;
+    }
+}
+
+@media (max-width: 1441px) {
+    .my-card-width {
+        max-width: 20rem;
+    }
+}
+
+@media (min-width: 1441px) {
+    .my-card-width {
+        max-width: 90%;
+    }
+}
+
+.working tr {
+    background: -webkit-linear-gradient(90deg, #ffe5ff,#e9c6e5);
+                            background: linear-gradient(90deg, #ffe5ff,#e9c6e5);
+}
+
+.working th, .working td{
+    background: #e9e7fc;
+
+}
+
+.my-table th {
+    vertical-align: top;
+    /*background: #e0b0ff;*/
+}
+
+.working td {
+    font-weight: 600;
+}
+
+.warm-up th, .warm-up td{
+    background: #fcfcfc;
+}
+
+.my-table {
+    border-color: #adadad;
+    border-style: dashed;
+    border-radius: 10px;
+}
+
+.my-table td, .my-table th{
+    /*width: auto;*/
+    border-color: #adadad;
+}
+
+.my-table {
+    max-width: 90%;
+    margin: 0 auto 0 auto;
+}
+
+td.edit-delete-cell {
+    width: 20px;
+}
+
+
+
+/*@media (max-width: 1200px) {
+    .my-table {
+        max-width: 90%;
+        margin: 0 auto 0 auto;
+    }
+    td.edit-delete-cell {
+        width: 20px;
+    }
+
+}
+*/
+@media (min-width: 1200px) {
+    .scroll-img {
+        height: 300px; /* высота нашего блока */
+        width: auto; /* ширина нашего блока */
+        overflow-x: scroll; /* прокрутка по горизонтали */
+        overflow-y: scroll; /* прокрутка по вертикали */
+        /*float: left;*/
+        /*border-radius: 22px;*/
+
+    }
+    .desc {
+        width: 85%;
+        /*background: #fff;
+        margin: 0 auto 0 auto;*/
+        font-size: 20px;
+    }
+    .my-row {
+        background: #fff;
+        padding: 5px;
+        border: 2px solid #ddd;
+        border-radius: 20px;
+        shadow: 2px 2px #ddd;
+    }
+    .index-a {
+        font-weight: 900;
+        font-size: 30px;
+        color: #e2bedf;
+        text-shadow: -3px 2px 1px #af75a4;
+        text-decoration-line: none;
+    }
+    .index-btn {
+        font-weight: 480;
+        font-size: 22px;
+        color: #af75a4; /*#e2bedf;
+        /*text-shadow: -3px 2px 1px #af75a4;*/
+        text-decoration-line: none;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 5px;
+        background: #fcfcfc;
+    }
+    .index-p {
+        border: 2px solid #ddd;
+        border-radius: 15px;
+        width: auto;
+        background: #fff;
+        font-size: 22px;
+    }
+    .img-1 {
+        height: 500px; width: auto;
+    }
+    .index-p-2 {
+        line-height: 2;
+    }
+}
+
+@media (max-width: 1200px) {
+    .scroll-img {
+        height: 300px; /* высота нашего блока */
+        width: auto; /* ширина нашего блока */
+        overflow-x: scroll; /* прокрутка по горизонтали */
+        overflow-y: scroll; /* прокрутка по вертикали */
+    }
+    .desc {
+        width: 100%;
+        /*background: #fff;
+        margin: 0 auto 0 auto;*/
+        font-size: 16px;
+    }
+    .my-row {
+        background: #fff;
+        padding: 5px;
+        border: 2px solid #ddd;
+        border-radius: 20px;
+        shadow: 2px 2px #ddd;
+    }
+    .index-a {
+        font-weight: 900;
+        font-size: 25px;
+        color: #e2bedf;
+        text-shadow: -3px 2px 1px #af75a4;
+        text-decoration-line: none;
+    }
+    .index-btn {
+        font-weight: 480;
+        font-size: 18px;
+        color: #af75a4; /*#e2bedf;
+        /*text-shadow: -3px 2px 1px #af75a4;*/
+        text-decoration-line: none;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 5px;
+        background: #fcfcfc;
+        line-height: 2.5;
+    }
+    .index-p {
+        border: 2px solid #ddd;
+        border-radius: 15px;
+        width: auto;
+        background: #fff;
+        font-size: 18px;
+        padding: 10px;
+    }
+    .img-1 {
+        height: 400px; width: auto;
+    }
+}
+
+.index-btn:hover {
+    background: #fff;
 }

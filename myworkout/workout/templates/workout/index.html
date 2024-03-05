@@ -1,9 +1,91 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     <title>{{title}}</title>
 {% endblock %}
 
 {% block content %}
-<h1>Content</h1>
+<div class="container my-4 ">
+
+    <div class="desc mx-auto">
+        <div class="row my-4 text-center">
+            <p class="mx-auto index-p">
+                <strong>MyWorkoutTracker</strong> — проект, посвящённый фитнесу и бодибилдингу.
+            <br>
+            Подойдёт всем, кто интересуется спортом и здоровым образом жизни,
+            начинающим, опытным спортсменам или тренерам.
+            </p>
+        </div>
+        <div class="row my-4 w-auto">
+            <p class="mx-auto index-p">
+                Что есть на сайте?
+            </p>
+        </div>
+        <div class="row my-4 my-row w-auto row-cols-2 row-cols-1">
+            <div class="col-md-7 col-12 ">
+                <a class="index-a" href="{% url 'catalogue' %}">Каталог</a>
+                <p>
+                    Если ты начинаешь тренировки с нуля или уже имеешь опыт, но хотел бы
+                    изучить новое — посмотри каталог
+                    <ul>
+                        <li>более 100 упражнений</li>
+                        <li>деление на категории</li>
+                        <li>подробное описание техники исполнения и
+                            другой информации (о безопасности, возможных вариациях и т. д.)</li>
+                        <li>фотоматериалы</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="col-md-5 col-12 align-items-start">
+                <div class="scroll-img">
+                    <img class="rounded img-1" src="{% static 'workout/images/каталог.png' %}"
+                         style="">
+                </div>
+            </div>
+        </div>
+
+        <div class="row my-4 my-row w-auto row-md-cols-2 row-cols-1">
+            <div class="col-md-7 col-12">
+                <a class="index-a" href="{% url 'tracker:archive_week' %}">Дневник</a>
+                <p>
+                    Веди свой дневник тренировок — это поможет в планировании тренировочного процесса,
+                    отслеживании прогресса и достижении целей!
+                </p>
+                <p class="index-p-2">
+                    Чтобы свободно пользоваться этим функционалом, <br>
+                    <a class="index-btn" href="{% url 'users:register' %}">зарегистрируйся</a>
+                    или <a class="index-btn" href="{% url 'users:login' %}">войди</a> в свой профиль.
+                </p>
+            </div>
+            <div class="col-md-5 col-12 align-items-end">
+                <div class="scroll-img">
+                    <img class="rounded " src="{% static 'workout/images/дневник.png' %}"
+                         style="height: 300px; width: auto;">
+                </div>
+            </div>
+        </div>
+
+        <div class="row my-4 my-row w-auto row-md-cols-2 row-cols-1">
+            <div class="col-md-7 col-12">
+                <a class="index-a" href="{% url 'tracker:programs' %}">Тренеру</a>
+                <p>
+                    Удобный интерфейс для составления тренировочных программ
+                    и возможность найти своего клиента. 
+                </p>
+                <p class="index-p-2">
+                    Для этого получи статус тренера в своём
+                    <a class="index-btn" href="{% url 'users:profile' %}">профиле</a>.
+                </p>
+            </div>
+            <div class="col-md-5 col-12 align-items-end">
+                <div class="scroll-img">
+                    <img class="rounded " src="{% static 'workout/images/программа.png' %}" alt="здесь будет картинка"
+                         style="height: 300px; width: auto;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 {% endblock %}

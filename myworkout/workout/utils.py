@@ -1,7 +1,10 @@
+#from myworkout.workout.forms import CatalogueFilteredForm
+
 menu = [
-    #{'name': 'Главная', 'url': 'home'},
+    {'name': 'Главная', 'url': 'home'},
     {'name': 'Каталог упражнений', 'url': 'catalogue'},
-    {'name': 'Блог', 'url': 'home'},
+    {'name': 'Программы тренировок', 'url': 'tracker:programs'},
+    #{'name': 'Блог', 'url': 'home'},
 ]
 
 
@@ -20,5 +23,6 @@ class DataMixin:
 
     def get_mixin_context(self, context, **kwargs):
         context['cat_selected'] = None
+        #context['form'] = CatalogueFilteredForm
         context.update(kwargs)
         return context

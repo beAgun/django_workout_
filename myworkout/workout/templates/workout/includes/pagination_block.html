@@ -3,11 +3,11 @@
     <ul class="pagination justify-content-center my-4 pagination-md">
         {% if page_obj.has_previous %}
         <li class="page-item">
-            <a class="page-link" style="color: #000000" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+            <a class="page-link" style="color: #000000" href="?page={{ page_obj.previous_page_number }}">&#8249;</a>
         </li>
         {% else %}
         <li class="page-item disabled">
-            <span class="page-link" style="background: #f8f9fa">Предыдущая</span>
+            <span class="page-link" style="background: #f8f9fa">&#8249;</span>
         </li>
         {% endif %}
 
@@ -23,11 +23,11 @@
 
         {% if page_obj.has_next %}
         <li class="page-item">
-            <a class="page-link" style="color: #000000" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            <a class="page-link" style="color: #000000" href="?page={{ page_obj.next_page_number }}">&#8250;</a>
         </li>
         {% else %}
         <li class="page-item disabled">
-            <span class="page-link" style="background: #f8f9fa">Следующая</span>
+            <span class="page-link" style="background: #f8f9fa">&#8250;</span>
         </li>
         {% endif %}
     </ul>
